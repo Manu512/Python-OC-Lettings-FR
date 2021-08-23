@@ -10,10 +10,12 @@ class Migration(migrations.Migration):
     ]
 
     database_operations = [migrations.AlterModelTable('Address', 'lettings_address'),
-                           migrations.AlterModelTable('Letting', 'lettings_letting'), ]
+                           migrations.AlterModelTable('Letting', 'lettings_letting'),
+                           ]
 
     state_operations = [migrations.DeleteModel('Address'),
-                        migrations.DeleteModel('Letting')]
+                        migrations.DeleteModel('Letting'),
+                        ]
 
     operations = [
       migrations.SeparateDatabaseAndState(
