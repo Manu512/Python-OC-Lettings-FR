@@ -62,6 +62,9 @@ jobs:
           password: $DOCKER_TOKEN
     steps:
       - checkout
+      - setup_remote_docker:
+            version: 19.03.13
+            docker_layer_caching: true
       - run:
           name: Build and push image to Docker_hub
           command: |
