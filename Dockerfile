@@ -11,7 +11,7 @@ ENV PYTHONUNBUFFERED 1
 # install dependencies
 RUN python -m venv venv
 RUN source venv/bin/activate
-RUN pip install --upgrade pip
+#RUN pip install --upgrade pip
 
 # copy the dependencies file to the working directory
 COPY requirements.txt /django

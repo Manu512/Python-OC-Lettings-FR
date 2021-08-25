@@ -6,22 +6,21 @@ orbs:
   # so you dont have to copy and paste it everywhere.
   # See the orb documentation here: https://circleci.com/developer/orbs/orb/circleci/python
   python: circleci/python@1.2
-  heroku: circleci/heroku@1.2.6
 
 workflows:
   new_commit:
     jobs:
       - build-and-test
-      - build-and-push-docker:
+      - build-docker:
           requires:
             - build-and-test
-          filters:
-            branches:
-              only:
-                - master
-      - deploy_to_heroku:
+      #          filters:
+      #            branches:
+      #              only:
+      #                - master
+      - push-docker-image:
           requires:
-            - build-and-push-docker
+            - build-docker
 
 jobs:
   build-and-test: # This is the name of the job, feel free to change it to better match what you're trying to do!
@@ -58,7 +57,7 @@ jobs:
           steps:
             - run: echo "Branche Master ==> On va conteneuriser et envoyer vers DockerHub"
 
-  build-and-push-docker:
+  build-docker:
     docker:
       - image: cimg/python:3.9.5
         auth:
@@ -66,26 +65,22 @@ jobs:
           password: $DOCKER_TOKEN
     steps:
       - checkout
-      - setup_remote_docker
+      - setup_remote_docker:
+          version: 19.03.13
       - run:
           name: Build Docker image
-          command: docker build -t $DOCKER_USER/oc-lettings:$CIRCLE_SHA1 .
-      - run:
-          name: Check images
-          command: docker images
+          command: docker build -t manu512/oc-lettings:$CIRCLE_SHA1 .
+
+  push-docker-image:
+    docker:
+      - image: cimg/python:3.9.5
+        auth:
+          username: $DOCKER_USER
+          password: $DOCKER_TOKEN
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 19.03.13
       - run:
           name: Push Docker Image
-          command: |
-                    echo $DOCKER_TOKEN | docker login -u $DOCKER_USER --password-stdin
-                    docker tag $DOCKER_USER/oc-lettings:$CIRCLE_SHA1 $DOCKER_USER/oc-lettings:lastest
-                    docker push $DOCKER_USER/oc-lettings:$CIRCLE_SHA1
-                    docker push $DOCKER_USER/oc-lettings:lastest
-  deploy_to_heroku:
-    docker:
-      # replace with your preferred image
-      - image: cimg/python:3.9.5
-    steps:
-      - heroku/push-docker-image:
-          api-key: HEROKU_TOKEN 
-          app-name: oc-lettings-512 
-  
+          command: docker push manu512/oc-lettings:$CIRCLE_SHA1
