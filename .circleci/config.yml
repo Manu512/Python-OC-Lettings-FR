@@ -75,7 +75,7 @@ jobs:
       - run:
           name: Push Docker Image
           command: |
-                    docker login -u $DOCKER_USER
+                    echo $DOCKER_TOKEN | docker login -u $DOCKER_USER --password-stdin
                     docker push $DOCKER_USER/oc-lettings:$CIRCLE_SHA1
 
 #  push-docker-image:
