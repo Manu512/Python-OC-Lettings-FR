@@ -1,6 +1,5 @@
 """ Test case Lettings app """
 
-import pytest
 from django.test import TestCase
 from django.urls import reverse
 
