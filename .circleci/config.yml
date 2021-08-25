@@ -74,7 +74,9 @@ jobs:
           command: docker images
       - run:
           name: Push Docker Image
-          command: docker push "${DOCKER_USER}/oc-lettings:${CIRCLE_SHA1}"
+          command: |
+                    docker login -u $DOCKER_USER
+                    docker push $DOCKER_USER/oc-lettings:$CIRCLE_SHA1
 
 #  push-docker-image:
 #    docker:
