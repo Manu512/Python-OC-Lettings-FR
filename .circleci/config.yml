@@ -84,9 +84,9 @@ jobs:
       - checkout
       - setup_remote_docker:
             version: 19.03.13
-      -run:
-        name: Push Docker Image
-        command:
-          - run:
-              name: Upload Docker Image
-              command: docker push $DOCKER_USER/oc-lettings:$CIRCLE_SHA1
+      - run:
+          name: Push Docker Image
+          command:
+            - run:
+                name: Upload Docker Image
+                command: docker push $DOCKER_USER/oc-lettings:$CIRCLE_SHA1
