@@ -57,11 +57,13 @@ jobs:
   deploy-docker-hub:
     docker:
       - image: cimg/python:3.9.5
+        auth:
+          username: $DOCKER_USER
+          password: $DOCKER_TOKEN
     steps:
       - checkout
       - run:
           name: Build and push image to Docker_hub
           command: |
-            docker login -u $DOCKER_USER -p $DOCKER_TOKEN
             docker build -t $DOCKER_USER/oc-lettings:$CIRCLE_SHA1 .
             docker push $DOCKER_USER/django-lettings:$CIRCLE_SHA1
