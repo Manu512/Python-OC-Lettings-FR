@@ -61,7 +61,7 @@ jobs:
     docker:
       - image: cimg/python:3.9.5
         auth:
-          username: manu512
+          username: $DOCKER_USER
           password: $DOCKER_TOKEN
     steps:
       - checkout
@@ -69,7 +69,7 @@ jobs:
           version: 19.03.13
       - run:
           name: Build Docker image
-          command: docker build -t manu512/oc-lettings:$CIRCLE_SHA1 .
+          command: docker build -t $DOCKER_USER/oc-lettings:$CIRCLE_SHA1 .
       - run:
           name: Check images
           command: docker images
@@ -78,14 +78,15 @@ jobs:
     docker:
       - image: cimg/python:3.9.5
         auth:
-          username: manu512
+          username: $DOCKER_USER
           password: $DOCKER_TOKEN
     steps:
       - checkout
       - setup_remote_docker:
           version: 19.03.13
+      - run: echo "docker build -t $DOCKER_USER/oc-lettings:$CIRCLE_SHA1 ."
       - run:
           name: Push Docker Image
-          command: docker push manu512/oc-lettings:$CIRCLE_SHA1
+          command: docker push $DOCKER_USER/oc-lettings:$CIRCLE_SHA1
 
-      - run: echo "docker build -t manu512/oc-lettings:$CIRCLE_SHA1 ."
+
