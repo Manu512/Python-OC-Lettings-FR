@@ -57,7 +57,7 @@ jobs:
           steps:
             - run: echo "Branche Master ==> On va conteneuriser et envoyer vers DockerHub"
 
-  build-and-push-docke:
+  build-and-push-docker:
     docker:
       - image: cimg/python:3.9.5
         auth:
