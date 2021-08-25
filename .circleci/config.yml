@@ -14,10 +14,10 @@ workflows:
       - build-docker:
           requires:
             - build-and-test
-          filters:
-            branches:
-              only:
-                - master
+#          filters:
+#            branches:
+#              only:
+#                - master
       - push-docker-image:
           requires:
             - build-docker
@@ -50,8 +50,6 @@ jobs:
       - run:
           name: linting PEP8
           command: flake8
-
-      - run: echo $CIRCLE_SHA1
 
       - when:
           condition:
@@ -89,3 +87,5 @@ jobs:
       - run:
           name: Push Docker Image
           command: docker push manu512/oc-lettings:$CIRCLE_SHA1
+
+      - run: echo "docker build -t manu512/oc-lettings:$CIRCLE_SHA1 ."
