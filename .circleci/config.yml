@@ -86,4 +86,4 @@ jobs:
           version: 19.03.13
       - run:
           name: Push Docker Image
-          command: docker push $DOCKER_USER/oc-lettings:$CIRCLE_SHA1
+          command: docker push oc-lettings:$CIRCLE_SHA1
