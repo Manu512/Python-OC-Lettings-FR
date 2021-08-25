@@ -87,5 +87,5 @@ jobs:
       - run:
           name: Push Docker Image
           command: |
-            TAG="${$CIRCLE_SHA1}"
+            TAG="${CIRCLE_SHA1}"
             docker push $DOCKER_USER/oc-lettings:$TAG
