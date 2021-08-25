@@ -84,6 +84,4 @@ jobs:
       - setup_remote_docker
       - run:
           name: Push Docker Image
-          command: |
-            TAG="${CIRCLE_SHA1}"
-            docker push $DOCKER_USER/oc-lettings:$TAG
+          command: docker push "${DOCKER_USER}/oc-lettings:${CIRCLE_SHA1}"
