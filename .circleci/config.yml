@@ -11,16 +11,16 @@ workflows:
   new_commit:
     jobs:
       - build-and-test
-      - build-docker:
+      - build-and-push-docker:
           requires:
             - build-and-test
 #          filters:
 #            branches:
 #              only:
 #                - master
-      - push-docker-image:
-          requires:
-            - build-docker
+#      - push-docker-image:
+#          requires:
+#            - build-docker
 
 jobs:
   build-and-test: # This is the name of the job, feel free to change it to better match what you're trying to do!
@@ -57,7 +57,7 @@ jobs:
           steps:
             - run: echo "Branche Master ==> On va conteneuriser et envoyer vers DockerHub"
 
-  build-docker:
+  build-and-push-docke:
     docker:
       - image: cimg/python:3.9.5
         auth:
@@ -72,16 +72,16 @@ jobs:
       - run:
           name: Check images
           command: docker images
-
-  push-docker-image:
-    docker:
-      - image: cimg/python:3.9.5
-        auth:
-          username: $DOCKER_USER
-          password: $DOCKER_TOKEN
-    steps:
-      - checkout
-      - setup_remote_docker
       - run:
           name: Push Docker Image
           command: docker push "${DOCKER_USER}/oc-lettings:${CIRCLE_SHA1}"
+
+#  push-docker-image:
+#    docker:
+#      - image: cimg/python:3.9.5
+#        auth:
+#          username: $DOCKER_USER
+#          password: $DOCKER_TOKEN
+#    steps:
+#      - checkout
+#      - setup_remote_docker
