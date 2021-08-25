@@ -76,14 +76,6 @@ jobs:
           name: Push Docker Image
           command: |
                     echo $DOCKER_TOKEN | docker login -u $DOCKER_USER --password-stdin
+                    docker tag $DOCKER_USER/oc-lettings:$CIRCLE_SHA1 $DOCKER_USER/oc-lettings:lastest
                     docker push $DOCKER_USER/oc-lettings:$CIRCLE_SHA1
-
-#  push-docker-image:
-#    docker:
-#      - image: cimg/python:3.9.5
-#        auth:
-#          username: $DOCKER_USER
-#          password: $DOCKER_TOKEN
-#    steps:
-#      - checkout
-#      - setup_remote_docker
+                    docker push $DOCKER_USER/oc-lettings:lastest
