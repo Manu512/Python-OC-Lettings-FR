@@ -68,8 +68,13 @@ jobs:
       - setup_remote_docker:
           version: 19.03.13
       - run:
+          name: Setup Environment Variables
+          command: |
+            echo "export PATH=$GOPATH/bin:$PATH" >> $BASH_ENV
+            echo "export GIT_SHA1=$CIRCLE_SHA1" >> $BASH_ENV
+      - run:
           name: Build Docker image
-          command: docker build -t manu512/oc-lettings:$CIRCLE_SHA1 .
+          command: docker build -t manu512/oc-lettings:$GIT_SHA1 .
       - run:
           name: Check images
           command: docker images
@@ -85,5 +90,10 @@ jobs:
       - setup_remote_docker:
           version: 19.03.13
       - run:
+          name: Setup Environment Variables
+          command: |
+            echo "export PATH=$GOPATH/bin:$PATH" >> $BASH_ENV
+            echo "export GIT_SHA1=$CIRCLE_SHA1" >> $BASH_ENV
+      - run:
           name: Push Docker Image
-          command: docker push manu512/oc-lettings:$CIRCLE_SHA1
+          command: docker push manu512/oc-lettings:$GIT_SHA1
