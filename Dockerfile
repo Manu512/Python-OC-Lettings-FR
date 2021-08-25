@@ -12,13 +12,13 @@ ENV PYTHONUNBUFFERED 1
 RUN pip install --upgrade pip
 
 # copy the dependencies file to the working directory
-COPY requirements.txt .
+COPY requirements.txt /django
 
 # install dependencies
 RUN pip install -r requirements.txt
 
 # copy the content of the local src directory to the working directory
-COPY . .
+COPY . /django
 
 EXPOSE 8000
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
