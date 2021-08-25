@@ -50,9 +50,9 @@ jobs:
 
       - when:
           condition:
-            equal: [  dev/milestone_3 , << pipeline.git.branch >> ]
+            equal: [  master , << pipeline.git.branch >> ]
           steps:
-            - run: echo "I am on master"
+            - run: echo "Branche Master ==> On va conteneuriser et envoyer vers DockerHub"
 
   deploy-docker-hub:
     docker:
