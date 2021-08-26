@@ -129,7 +129,7 @@ Création des variable d'environnement au niveau du projet :
 |---    |---   |---    |
 |   DOCKER_USER   |   User Docker Hub   |   `manu512`   |
 |   DOCKER_TOKEN   |   Token Dockerhub ou Mdp   |   `1321654654654651231654`   |
-|   HEROKU_TOKEN |  API Token Heroku  |   `1321654654654651231654`   |
+|   HEROKU_API_KEY |  API Token Heroku  |   `1321654654654651231654`   |
 ### Github :
 
 - git init
@@ -153,10 +153,6 @@ La commande unique pour récupération de l'application en local et son démarra
 
 Le principe d'Heroku est d'être un repository supplémentaire a notre code GIT.
 
-Necessaire pour fonctionner :
-- django
-- gunicorn
-- django-heroku
 
 
 Pour créer une application sur Heroku voici la marche a suivre :

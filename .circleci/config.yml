@@ -8,20 +8,29 @@ orbs:
   python: circleci/python@1.2
   heroku: circleci/heroku@1.2.6
 
+executors:
+  my-machine:
+    machine: true
+    working_directory: /tmp/workspace
+
 workflows:
   new_commit:
     jobs:
       - build-and-test
-      - build-and-push-docker:
+      - build-docker:
           requires:
             - build-and-test
-          filters:
-            branches:
-              only:
-                - master
-      - deploy_to_heroku:
+#          filters:
+#            branches:
+#              only:
+#                - master
+      - push-docker:
           requires:
-            - build-and-push-docker
+            - build-docker
+      - heroku/deploy-via-git:
+          app-name: oc-lettings-512
+          requires:
+            - build-docker
 
 jobs:
   build-and-test: # This is the name of the job, feel free to change it to better match what you're trying to do!
@@ -58,15 +67,16 @@ jobs:
           steps:
             - run: echo "Branche Master ==> On va conteneuriser et envoyer vers DockerHub"
 
-  build-and-push-docker:
-    docker:
-      - image: cimg/python:3.9.5
-        auth:
-          username: $DOCKER_USER
-          password: $DOCKER_TOKEN
+  build-docker:
+    executor: my-machine
     steps:
+#    docker:
+#      - image: cimg/python:3.9.5
+#        auth:
+#          username: $DOCKER_USER
+#          password: $DOCKER_TOKEN
       - checkout
-      - setup_remote_docker
+#      - setup_remote_docker
       - run:
           name: Build Docker image
           command: docker build -t $DOCKER_USER/oc-lettings:$CIRCLE_SHA1 .
@@ -74,16 +84,39 @@ jobs:
           name: Check images
           command: docker images
       - run:
+          name: Save docker image
+          command: docker save -o oc-lettings.tar $DOCKER_USER/oc-lettings
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ./oc-lettings.tar
+
+  push-docker:
+    executor: my-machine
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Load saved docker image (oc-lettings.tar)
+          command: docker load -i /tmp/workspace/oc-lettings.tar
+      - run:
           name: Push Docker Image
           command: |
                     echo $DOCKER_TOKEN | docker login -u $DOCKER_USER --password-stdin
                     docker tag $DOCKER_USER/oc-lettings:$CIRCLE_SHA1 $DOCKER_USER/oc-lettings:lastest
                     docker push $DOCKER_USER/oc-lettings:$CIRCLE_SHA1
                     docker push $DOCKER_USER/oc-lettings:lastest
-  deploy_to_heroku:
-    docker:
-      - image: cimg/python:3.9.5
-    steps:
-      - heroku/push-docker-image:
-          api-key: HEROKU_TOKEN
-          app-name: oc-lettings-512
+
+ # deploy_to_heroku:
+ #   executor: my-machine
+#    docker:
+#      - image: cimg/python:3.9.5
+#    steps:
+#      - attach_workspace:
+#          at: /tmp/workspace
+#      - heroku/install
+#      - heroku/check-authentication
+#      - run:
+#          name: Load saved docker image (oc-lettings.tar)
+#          command: docker load -i /tmp/workspace/oc-lettings.tar
+#      - heroku/deploy-via-git
