@@ -18,7 +18,7 @@ env = environ.Env(
 BASE_DIR = os.path.dirname(os.path.realpath(os.path.dirname(__file__) + "/.."))
 
 # Take environment variables from .env file
-environ.Env.read_env(BASE_DIR + "/.env")
+environ.Env.read_env(BASE_DIR + "/oc_lettings_site/settings/.env")
 
 # Configure Sentry SDK
 sentry_sdk.init(
@@ -123,7 +123,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Paris'
 
 USE_I18N = True
 
