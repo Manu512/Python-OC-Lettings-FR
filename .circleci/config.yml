@@ -20,10 +20,10 @@ workflows:
       - build-docker:
           requires:
             - build-and-test
-          filters:
-            branches:
-              only:
-                - master
+#          filters:
+#            branches:
+#              only:
+#                - master
       - push-docker:
           requires:
             - build-docker

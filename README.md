@@ -97,6 +97,7 @@ Pré-requis :
 - Un compte/acces CircleCi
 - Un Compte/acces DockerHub
 - Un Compte/Acces Heroku
+- Un Compte/Acces Sentry
 
 ### Description du fonctionnement du Pipeline CircleCi
 
@@ -162,4 +163,7 @@ En ligne de commande :
 - heroku ps:scale web=1 # Permet de s'assurer qu'une instance est lancée.
 - heroku open affiche le site.
 - heroku logs --tail affiche les log en direct.
-- 
+
+### Sentry :
+Variable d'environement: DEBUG=False 
+Pour forcer le mode Debug en OFF
