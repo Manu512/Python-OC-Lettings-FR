@@ -42,6 +42,10 @@ workflows:
     jobs:
       - approve-build:
           type: approval
+          filters:
+            branches:
+              ignore:
+                - master
       - build-docker:
           requires:
             - approve-build
