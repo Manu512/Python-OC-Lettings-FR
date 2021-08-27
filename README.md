@@ -5,9 +5,6 @@
 **Master Branch :** [![CircleCI](https://circleci.com/gh/Manu512/Python-OC-Lettings-FR/tree/master.svg?style=shield)](https://circleci.com/gh/Manu512/Python-OC-Lettings-FR/tree/master)    |    **Dev Branch :** [![CircleCI](https://circleci.com/gh/Manu512/Python-OC-Lettings-FR/tree/dev.svg?style=shield)](https://circleci.com/gh/Manu512/Python-OC-Lettings-FR/tree/dev)
 
 
-
-
-
 ## Résumé
 
 Site web d'Orange County Lettings
@@ -112,7 +109,7 @@ le fichier .env doit contenir au minimum les lignes suivantes : (Bien entendu ce
 
 ### Description du fonctionnement du Pipeline CircleCi
 
-####Lors d'un commit sur n'importe quelle branche autre que la master :
+#### Lors d'un commit sur n'importe quelle branche autre que la master :
 - workflow 'build-and-test' du Pipeline (le dépôt) Python-OC-Lettings-FR.
   - Il est décomposé en différents 'jobs':
     - build and test : 
@@ -123,7 +120,7 @@ le fichier .env doit contenir au minimum les lignes suivantes : (Bien entendu ce
     - docker build and push
     - push sur heroku
     - 
-####Lors d'un commit sur la branche master :
+#### Lors d'un commit sur la branche master :
    
 - le workflow master_commit va se lancer
      - Sa réussite du job ‘build and test’, va déclencher:
