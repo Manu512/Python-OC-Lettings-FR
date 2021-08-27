@@ -91,6 +91,9 @@ Utilisation de PowerShell, comme ci-dessus sauf :
 
 ## Déploiement
 
+Fichier des variables environnements disponible à l'adresse :
+`oc_lettings_site/settings/.env`
+
 Pré-requis :
 
 - Un compte/acces Github
@@ -165,5 +168,3 @@ En ligne de commande :
 - heroku logs --tail affiche les log en direct.
 
 ### Sentry :
-Variable d'environement: DEBUG=False 
-Pour forcer le mode Debug en OFF

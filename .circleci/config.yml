@@ -14,16 +14,37 @@ executors:
     working_directory: /tmp/workspace
 
 workflows:
-  new_commit:
+  master_commit:
     jobs:
-      - build-and-test
-      - build-docker:
-          requires:
-            - build-and-test
+      - build-and-test:
           filters:
             branches:
               only:
                 - master
+      - build-docker:
+          requires:
+            - build-and-test
+      - push-docker:
+          requires:
+            - build-docker
+      - heroku/deploy-via-git:
+          app-name: oc-lettings-512
+          requires:
+            - push-docker
+  dev_commit:
+    jobs:
+      - build-and-test:
+          filters:
+            branches:
+              ignore:
+                - master
+  dev-built-and-deploy:
+    jobs:
+      - approve-build:
+          type: approval
+      - build-docker:
+          requires:
+            - approve-build
       - push-docker:
           requires:
             - build-docker
