@@ -165,5 +165,3 @@ En ligne de commande :
 - heroku logs --tail affiche les log en direct.
 
 ### Sentry :
-Variable d'environement: DEBUG=False 
-Pour forcer le mode Debug en OFF
