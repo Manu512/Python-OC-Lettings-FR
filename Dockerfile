@@ -2,7 +2,7 @@
 FROM python:3.9.5-slim
 
 RUN apt-get update
-RUN apt-get -y install libpq-dev
+RUN apt-get -y install libpq-dev gcc
 RUN pip install psycopg2
 
 # set environment variables
