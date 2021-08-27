@@ -1,5 +1,9 @@
 # set base image (host OS)
-FROM python:3.9.4-alpine
+FROM python:3.9.5-slim
+
+RUN apt-get update \
+    && apt-get -y install libpq-dev gcc \
+    && pip install psycopg2 \
 
 # set the working directory in the container
 WORKDIR /django
