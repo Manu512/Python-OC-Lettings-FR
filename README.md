@@ -179,13 +179,13 @@ La commande unique pour récupération de l'application en local et son démarra
 
 Heroku permet d'heberger notre application.
 
-En cas de necessité ou en cas de suppression, il faut créer l'application 'oc-lettings-512'
+En cas de necessité ou en cas de suppression, il faut créer l'application 'oc-lettings-512' et apres la compilation, il sera peut-être nécessaire de supprimer l'addons PostGreSql.
 
-heroku auth:login
-heroku create oc-lettings-512 --region eu
-heroku config:set -a oc-lettings-512 DEBUG=False
-heroku config:set -a oc-lettings-512 SENTRY_DSN=https://0ae682071519451cb7cb551c5d6dc3f7@o977250.ingest.sentry.io/5933731
-heroku config:set -a oc-lettings-512 SECRET_KEY="fp$9^593hsriajg$_%=5trot9g!1qa@ew(o-1#@=&4%=hp46(s"
+`heroku auth:login`  
+`heroku create oc-lettings-512 --region eu`    
+`heroku config:set -a oc-lettings-512 DEBUG=False`  
+`heroku config:set -a oc-lettings-512 SENTRY_DSN=https://0ae682071519451cb7cb551c5d6dc3f7@o977250.ingest.sentry.io/5933731`     
+`heroku config:set -a oc-lettings-512 SECRET_KEY=fp$9^593hsriajg$_%=5trot9g!1qa@ew(o-1#@=&4%=hp46(s"`  
 
 ---
 
@@ -194,3 +194,6 @@ heroku config:set -a oc-lettings-512 SECRET_KEY="fp$9^593hsriajg$_%=5trot9g!1qa@
 Sentry permet de faire le [monitoring de l'application](https://sentry.io/organizations/manu512/projects/manu512/?project=5933731).
 
 Elle permet également de détecter des éventuels bug/issues.
+
+Mais il faut pour cela intégrer le sentry-sdk et la variable dans settings.py (heroku.py dans notre application):
+`SENTRY_DSN = https://0ae682071519451cb7cb551c5d6dc3f7@o977250.ingest.sentry.io/5933731`
