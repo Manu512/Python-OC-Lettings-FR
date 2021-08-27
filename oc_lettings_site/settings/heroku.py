@@ -3,7 +3,7 @@ Production Settings for Heroku
 """
 # flake8: noqa: F403 , F405 # Bypass Flake8 star import
 # If using in your own project, update the project namespace below
-from .base import *
+from oc_lettings_site.settings.base import *
 
 # False if not in os.environ
 DEBUG = False
