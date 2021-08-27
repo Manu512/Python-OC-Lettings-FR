@@ -68,12 +68,13 @@ jobs:
             - run: echo "Branche Master ==> On va conteneuriser et envoyer vers DockerHub"
 
   build-docker:
-    steps:
+
     docker:
       - image: cimg/python:3.9.5
         auth:
           username: $DOCKER_USER
           password: $DOCKER_TOKEN
+    steps:
       - checkout
       - setup_remote_docker
       - run:
