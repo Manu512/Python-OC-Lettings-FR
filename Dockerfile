@@ -1,5 +1,5 @@
 # set base image (host OS)
-FROM python:3.9.5-alpine
+FROM python:3.9.5-slim
 
 RUN apt-get update
 RUN apt-get -y install libpq-dev gcc
