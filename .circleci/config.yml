@@ -30,7 +30,7 @@ workflows:
       - heroku/deploy-via-git:
           app-name: oc-lettings-512
           requires:
-            - build-docker
+            - push-docker
 
 jobs:
   build-and-test: # This is the name of the job, feel free to change it to better match what you're trying to do!
