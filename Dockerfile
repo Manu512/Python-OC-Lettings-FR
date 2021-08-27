@@ -2,7 +2,7 @@
 FROM python:3.9.5-slim
 
 RUN apt-get update
-RUN apt-get -y install libpq-dev gcc
+RUN apt-get -y install libpq-dev
 RUN pip install psycopg2
 
 # set environment variables
@@ -13,8 +13,8 @@ ENV PYTHONUNBUFFERED 1
 WORKDIR /django
 
 # install dependencies
-RUN python -m venv venv
-RUN source venv/bin/activate
+#RUN python -m venv venv
+#RUN source venv/bin/activate
 #RUN pip install --upgrade pip
 
 # copy the dependencies file to the working directory
