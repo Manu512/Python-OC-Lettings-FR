@@ -9,3 +9,8 @@ from django.shortcuts import render
 # Praesent volutpat porttitor magna, non finibus neque cursus id.
 def index(request):
     return render(request, 'oc_lettings_site/index.html')
+
+
+def trigger_error(request):
+    """ Fonction appeler lors et qui va permettre de tracer l'erreur par Sentry"""
+    division_by_zero = 1 / 0  # noqa: F841
