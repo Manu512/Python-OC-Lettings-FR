@@ -2,9 +2,7 @@
   <img src="https://user.oc-static.com/upload/2020/09/18/16004295603423_P11.png" />
 </p>
 
-
-[![CircleCI](https://circleci.com/gh/Manu512/Python-OC-Lettings-FR/tree/master.svg?style=svg)](https://circleci.com/gh/Manu512/Python-OC-Lettings-FR/tree/master)
-
+**Master Branch :** [![CircleCI](https://circleci.com/gh/Manu512/Python-OC-Lettings-FR/tree/master.svg?style=shield)](https://circleci.com/gh/Manu512/Python-OC-Lettings-FR/tree/master)    |    **Dev Branch :** [![CircleCI](https://circleci.com/gh/Manu512/Python-OC-Lettings-FR/tree/dev.svg?style=shield)](https://circleci.com/gh/Manu512/Python-OC-Lettings-FR/tree/dev)
 
 
 
@@ -25,7 +23,7 @@ Site web d'Orange County Lettings
 
 Dans le reste de la documentation sur le développement local, il est supposé que la commande `python` de votre OS shell exécute l'interpréteur Python ci-dessus (à moins qu'un environnement virtuel ne soit activé).
 
-### macOS / Linux
+### MacOs / Linux
 
 #### Cloner le repository
 
@@ -35,7 +33,7 @@ Dans le reste de la documentation sur le développement local, il est supposé q
 #### Créer l'environnement virtuel
 
 - `cd /path/to/Python-OC-Lettings-FR`
-- `python -m venv venv`
+- `python -m venv`
 - `apt-get install python3-venv` (Si l'étape précédente comporte des erreurs avec un paquet non trouvé sur Ubuntu)
 - Activer l'environnement `source venv/bin/activate`
 - Confirmer que la commande `python` exécute l'interpréteur Python dans l'environnement virtuel
@@ -88,13 +86,23 @@ Utilisation de PowerShell, comme ci-dessus sauf :
 - Pour activer l'environnement virtuel, `.\venv\Scripts\Activate.ps1` 
 - Remplacer `which <my-command>` par `(Get-Command <my-command>).Path`
 
-
+---
 ## Déploiement
 
-Fichier des variables environnements disponible à l'adresse :
-`oc_lettings_site/settings/.env`
+Fichier des variables environnements disponible à l'adresse : `oc_lettings_site/settings/.env`
 
-Pré-requis :
+**Particularité :**  
+oc_lettings_site/settings contient plusieurs fichiers.
+local.py est le fichier de setting avec les variables local et du docker.
+heroku.py est le fichier de setting avec les variables utilisé pour l'application heroku.
+
+le fichier .env doit contenir au minimum les lignes suivantes : (Bien entendu ce sont de fausses données)  
+`SECRET_KEY='fp$9^59[3]sriajg$_%]=5trot9g!1qa@ew(o-1#@=&4%=hp46(s'`  
+`SENTRY_DSN='https://0ae682071519451cb76dc3f7@o977250.ingest.sentry.io/5933731'` # Je vais pas sécuriser l'application et l'afficher ici ;o)  
+`ALLOWED_HOSTS=127.0.0.1,[::1],0.0.0.0,.herokuapp.com` # Cette ligne est facultative en mode debug=True
+
+
+**Pré-requis :**
 
 - Un compte/acces Github
 - Un compte/acces CircleCi
@@ -104,27 +112,38 @@ Pré-requis :
 
 ### Description du fonctionnement du Pipeline CircleCi
 
-####Lors d'un commit sur n'importe quelle branche:
-- Github va déclenché le workflow 'New-Commit' du Pipeline (le depot) Python-OC-Lettings-FR.
-  - Il est décomposé en differents 'jobs':
+####Lors d'un commit sur n'importe quelle branche autre que la master :
+- workflow 'build-and-test' du Pipeline (le dépôt) Python-OC-Lettings-FR.
+  - Il est décomposé en différents 'jobs':
     - build and test : 
       - va lancer les tests (via pytests)
-      - controler le linting PEP8 via Flake8
-  
-  - Si nous sommes dans la branch Master, la reussi du job build and test, va déclencher:
-    - build and push docker:
-      - Cela va créer une image docker et l'uploader sur le docker hub.
-        Il y aura 2 push identiques mais tagué differement (1 hash du commit et 1 lastest le dernier)
-        Cela a pour but de facilité le deployment rapide en local sur la derniere version.
-    - #TODO : push to heroku : mise en ligne via la plateforme Heroku.
+      - contrôler le linting PEP8 via Flake8
+- le workflow 'dev-built-and-deploy' attendra notre avail pour se lancer
+  - les jobs sont :
+    - docker build and push
+    - push sur heroku
+    - 
+####Lors d'un commit sur la branche master :
+   
+- le workflow master_commit va se lancer
+     - Sa réussite du job ‘build and test’, va déclencher:
+        - build docker:
+          - Cela va créer une image docker et l'uploader sur le docker hub.
+        - push docker:
+            Il y aura 2 push identiques mais tagué différemment (1 hash du commit et 1 lastest le dernier)
+            Cela a pour but de facilité le déploiement rapide en local sur la dernière version.
+        - heroku/deploy-via-git:
+            Va lancer le build de l'application sur Heroku via Git.
 
-### CircleCi :
+---
+
+## CircleCi :
 
 Paramétrage nécessaire : 
 
-Création des variable d'environnement au niveau du projet :
+Création des variables d'environnement au niveau du projet :
 
-- Dans Projets: 
+- Dans **Projets**:
 - Cliquez sur `Project Settings`  (Les 3 petits points)
 - Cliquez sur `Environment Variables`  
 - Cliquez sur `Add Environment Variables`  
@@ -134,15 +153,18 @@ Création des variable d'environnement au niveau du projet :
 |   DOCKER_USER   |   User Docker Hub   |   `manu512`   |
 |   DOCKER_TOKEN   |   Token Dockerhub ou Mdp   |   `1321654654654651231654`   |
 |   HEROKU_API_KEY |  API Token Heroku  |   `1321654654654651231654`   |
-### Github :
 
-- git init
-- git add .
-- git remote add origin ....
-- git push origin master ( origin = remote, master = branch ) 
+---
 
+## Github :
 
-### Docker Hub :
+[Github Repository](https://github.com/Manu512/Python-OC-Lettings-FR) permet de faire le versionning de notre projet/application.
+
+---
+
+## Docker Hub :
+
+[Docker-Hub Manu512 Repository](https://hub.docker.com/repository/docker/manu512/oc-lettings) permet de stocker en ligne l'image docker de notre application.  
 
 La commande unique pour récupération de l'application en local et son démarrage immédiat est :
 
@@ -152,19 +174,17 @@ La commande unique pour récupération de l'application en local et son démarra
 - manu512 est le compte du Hub Docker  
 - lastest peux être remplacé par le hash du commit. Comme son nom l'indique lastest est le dernier commit.
 
+---
 
-### Heroku :
+## Heroku :
+[L'application sur Heroku](https://oc-lettings-512.herokuapp.com/)  
 
-Le principe d'Heroku est d'être un repository supplémentaire a notre code GIT.
+Heroku permet d'heberger notre application.
 
+---
 
+## Sentry :
 
-Pour créer une application sur Heroku voici la marche a suivre :
-En ligne de commande :  
-- heroku create (création de l'application)
-- git push heroku master (master etant la branche)
-- heroku ps:scale web=1 # Permet de s'assurer qu'une instance est lancée.
-- heroku open affiche le site.
-- heroku logs --tail affiche les log en direct.
+Sentry permet de faire le [monitoring de l'application](https://sentry.io/organizations/manu512/projects/manu512/?project=5933731).
 
-### Sentry :
+Elle permet également de détecter des éventuels bug/issues.
