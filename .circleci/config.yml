@@ -70,13 +70,7 @@ jobs:
   build-docker:
     executor: my-machine
     steps:
-#    docker:
-#      - image: cimg/python:3.9.5
-#        auth:
-#          username: $DOCKER_USER
-#          password: $DOCKER_TOKEN
       - checkout
-#      - setup_remote_docker
       - run:
           name: Build Docker image
           command: docker build -t $DOCKER_USER/oc-lettings:$CIRCLE_SHA1 .
@@ -106,17 +100,3 @@ jobs:
                     docker tag $DOCKER_USER/oc-lettings:$CIRCLE_SHA1 $DOCKER_USER/oc-lettings:lastest
                     docker push $DOCKER_USER/oc-lettings:$CIRCLE_SHA1
                     docker push $DOCKER_USER/oc-lettings:lastest
-
- # deploy_to_heroku:
- #   executor: my-machine
-#    docker:
-#      - image: cimg/python:3.9.5
-#    steps:
-#      - attach_workspace:
-#          at: /tmp/workspace
-#      - heroku/install
-#      - heroku/check-authentication
-#      - run:
-#          name: Load saved docker image (oc-lettings.tar)
-#          command: docker load -i /tmp/workspace/oc-lettings.tar
-#      - heroku/deploy-via-git
