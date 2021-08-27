@@ -45,9 +45,11 @@ workflows:
             - build-and-test
       - build-docker:
           requires:
-            - build-and-test
             - approve-build
       - push-docker:
+          requires:
+            - build-docker
+      - push-docker-lastest:
           requires:
             - build-docker
       - heroku/deploy-via-git:
@@ -120,6 +122,19 @@ jobs:
           name: Push Docker Image
           command: |
                     echo $DOCKER_TOKEN | docker login -u $DOCKER_USER --password-stdin
-                    docker tag $DOCKER_USER/oc-lettings:$CIRCLE_SHA1 $DOCKER_USER/oc-lettings:lastest
                     docker push $DOCKER_USER/oc-lettings:$CIRCLE_SHA1
+
+  push-docker-lastest:
+    executor: my-machine
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Load saved docker image (oc-lettings.tar)
+          command: docker load -i /tmp/workspace/oc-lettings.tar
+      - run:
+          name: Push Docker Image
+          command: |
+                    echo $DOCKER_TOKEN | docker login -u $DOCKER_USER --password-stdin
+                    docker tag $DOCKER_USER/oc-lettings:$CIRCLE_SHA1 $DOCKER_USER/oc-lettings:lastest
                     docker push $DOCKER_USER/oc-lettings:lastest
