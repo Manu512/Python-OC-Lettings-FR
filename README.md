@@ -150,7 +150,8 @@ Création des variables d'environnement au niveau du projet :
 |   DOCKER_USER   |   User Docker Hub   |   `manu512`   |
 |   DOCKER_TOKEN   |   Token Dockerhub ou Mdp   |   `1321654654654651231654`   |
 |   HEROKU_API_KEY |  API Token Heroku  |   `1321654654654651231654`   |
-
+| SENTRY_DSN    | URL Sentry  | `https://0ae682071519451cb7cb551c5d6dc3f7@o977250.ingest.sentry.io/5933731` |
+| SECRET_KEY  |  DJANGO SECRET_KEY  |  `fp$9^593hsriajg$_%=5trot9g!1qa@ew(o-1#@=&4%=hp46(s`  |
 ---
 
 ## Github :
@@ -177,6 +178,14 @@ La commande unique pour récupération de l'application en local et son démarra
 [L'application sur Heroku](https://oc-lettings-512.herokuapp.com/)  
 
 Heroku permet d'heberger notre application.
+
+En cas de necessité ou en cas de suppression, il faut créer l'application 'oc-lettings-512'
+
+heroku auth:login
+heroku create oc-lettings-512 --region eu
+heroku config:set -a oc-lettings-512 DEBUG=False
+heroku config:set -a oc-lettings-512 SENTRY_DSN=https://0ae682071519451cb7cb551c5d6dc3f7@o977250.ingest.sentry.io/5933731
+heroku config:set -a oc-lettings-512 SECRET_KEY="fp$9^593hsriajg$_%=5trot9g!1qa@ew(o-1#@=&4%=hp46(s"
 
 ---
 

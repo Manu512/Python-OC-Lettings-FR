@@ -1,12 +1,8 @@
 """" Application Settings """
 import os
 
-# Configure Django App for Heroku.
-import django_heroku
 # environnement variable security
 import environ
-import sentry_sdk
-from sentry_sdk.integrations.django import DjangoIntegration
 
 env = environ.Env(
     # set casting, default value
@@ -19,21 +15,6 @@ BASE_DIR = os.path.dirname(os.path.realpath(os.path.dirname(__file__) + "/.."))
 
 # Take environment variables from .env file
 environ.Env.read_env(BASE_DIR + "/oc_lettings_site/settings/.env")
-
-# Configure Sentry SDK
-sentry_sdk.init(
-    dsn=env('SENTRY_DSN'),
-    integrations=[DjangoIntegration()],
-
-    # Set traces_sample_rate to 1.0 to capture 100%
-    # of transactions for performance monitoring.
-    # We recommend adjusting this value in production.
-    traces_sample_rate=1.0,
-
-    # If you wish to associate users to errors (assuming you are using
-    # django.contrib.auth) you may enable sending PII data.
-    send_default_pii=True
-)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -135,5 +116,3 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-
-django_heroku.settings(locals())
