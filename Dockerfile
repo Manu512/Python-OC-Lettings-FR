@@ -1,16 +1,16 @@
 # set base image (host OS)
-FROM python:3.9.5-slim
+FROM python:3.9.5-alpine
 
-RUN apt-get update \
-    && apt-get -y install libpq-dev gcc \
-    && pip install psycopg2 \
-
-# set the working directory in the container
-WORKDIR /django
+RUN apt-get update
+RUN apt-get -y install libpq-dev gcc
+RUN pip install psycopg2
 
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
+
+# set the working directory in the container
+WORKDIR /django
 
 # install dependencies
 RUN python -m venv venv
