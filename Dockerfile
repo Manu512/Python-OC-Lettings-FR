@@ -1,5 +1,5 @@
 # set base image (host OS)
-FROM python:3.9-alpine
+FROM python:3.9.4-alpine
 
 # set the working directory in the container
 WORKDIR /django
