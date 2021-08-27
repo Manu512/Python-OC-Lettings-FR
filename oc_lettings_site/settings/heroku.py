@@ -3,8 +3,7 @@ Production Settings for Heroku
 """
 # flake8: noqa: F403 , F405 # Bypass Flake8 star import
 # If using in your own project, update the project namespace below
-# Configure Django App for Heroku.
-import django_heroku
+
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
@@ -32,5 +31,3 @@ DEBUG = env('DEBUG')
 SECRET_KEY = env('SECRET_KEY')
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
-
-django_heroku.settings(locals())
