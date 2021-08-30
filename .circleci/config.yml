@@ -110,4 +110,3 @@ jobs:
       - run: heroku maintenance:off --app $HEROKU_APP_NAME
       - heroku/deploy-via-git:
           force: true
-      - run: heroku addons:destroy heroku-postgresql -a oc-lettings-512 --confirm oc-lettings-512
