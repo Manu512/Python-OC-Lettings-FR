@@ -107,9 +107,8 @@ jobs:
       - run:
           name: Setup Heroku
           command: |
-                  HEROKU_API_KEY=${HEROKU_API_KEY} heroku config:set DJANGO_SECRET_KEY=${SECRET_KEY} -a ${HEROKU_APP_NAME}
-                  HEROKU_API_KEY=${HEROKU_API_KEY} heroku config:set SENTRY_NAME=${SENTRY_DSN} -a ${HEROKU_APP_NAME}
-                  HEROKU_API_KEY=${HEROKU_API_KEY} heroku config:set DEBUG=${DEBUG} -a ${HEROKU_APP_NAME}
+                  HEROKU_API_KEY=${HEROKU_API_KEY} heroku config:set DJANGO_SECRET_KEY=${SECRET_KEY} -a $HEROKU_APP_NAME
+                  HEROKU_API_KEY=${HEROKU_API_KEY} heroku config:set SENTRY_NAME=${SENTRY_DSN} -a $HEROKU_APP_NAME
+                  HEROKU_API_KEY=${HEROKU_API_KEY} heroku config:set DEBUG=${DEBUG} -a $HEROKU_APP_NAME
       - heroku/deploy-via-git:
-          app-name: HEROKU_APP_NAME
           api-key: HEROKU_API_KEY
