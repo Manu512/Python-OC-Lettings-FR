@@ -24,10 +24,9 @@ workflows:
       - build-push-docker:
           requires:
             - build-and-test
-      - heroku/deploy-via-git:
-          app-name: oc-lettings-512
+      - deploy:
           requires:
-            - build-push-docker
+          - build-push-docker
   dev_commit:
     jobs:
       - build-and-test:
@@ -108,10 +107,9 @@ jobs:
       - run:
           name: Setup Heroku
           command: |
-                  HEROKU_API_KEY=${HEROKU_API_KEY} heroku create -a oc-lettings-512 --region eu
-                  HEROKU_API_KEY=${HEROKU_API_KEY} heroku config:set DJANGO_SECRET_KEY=${SECRET_KEY} -a oc-lettings-512
-                  HEROKU_API_KEY=${HEROKU_API_KEY} heroku config:set SENTRY_NAME=${SENTRY_DSN} -a oc-lettings-512
-                  HEROKU_API_KEY=${HEROKU_API_KEY} heroku config:set DEBUG=${DEBUG} -a oc-lettings-512
+                  HEROKU_API_KEY=${HEROKU_API_KEY} heroku config:set DJANGO_SECRET_KEY=${SECRET_KEY} -a ${HEROKU_APP_NAME}
+                  HEROKU_API_KEY=${HEROKU_API_KEY} heroku config:set SENTRY_NAME=${SENTRY_DSN} -a ${HEROKU_APP_NAME}
+                  HEROKU_API_KEY=${HEROKU_API_KEY} heroku config:set DEBUG=${DEBUG} -a ${HEROKU_APP_NAME}
       - heroku/deploy-via-git:
           app-name: oc-lettings-512
           api-key: HEROKU_API_KEY
