@@ -136,6 +136,7 @@ jobs:
                   HEROKU_API_KEY=${HEROKU_API_KEY heroku create -a oc-lettings-512 --region eu
                   HEROKU_API_KEY=${HEROKU_API_KEY} heroku config:set DJANGO_SECRET_KEY=${SECRET_KEY} -a oc-lettings-512
                   HEROKU_API_KEY=${HEROKU_API_KEY} heroku config:set SENTRY_NAME=${SENTRY_DSN} -a oc-lettings-512
+                  HEROKU_API_KEY=${HEROKU_API_KEY} heroku config:set SENTRY_NAME=${DEBUG} -a oc-lettings-512
       - heroku/deploy-via-git:
           app-name: oc-lettings-512 
           api-key: HEROKU_API_KEY 
