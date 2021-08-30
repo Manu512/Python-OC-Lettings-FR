@@ -24,17 +24,9 @@ workflows:
       - build-push-docker:
           requires:
             - build-and-test
-      - heroku_deploy:
-          jobs:
-            - heroku/deploy-via-git:
-                app-name: $HEROKU_APP_NAME
-                force: true
-                pre-steps:
-                  - run: heroku config:set SECRET_KEY=SECRET_KEY -a $APP_NAME
-                  - run: heroku config:set DNS_SENTRY=SENTRY_DSN -a $APP_NAME
-                  - run: heroku stack:set heroku-20 -a $APP_NAME
-                requires:
-                  - build-push-docker
+      - deploy:
+          requires:
+            - build-push-docker
   dev_commit:
     jobs:
       - build-and-test:
