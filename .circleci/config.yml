@@ -103,11 +103,11 @@ jobs:
       - checkout
       - heroku/install
       - run: heroku maintenance:on --app $HEROKU_APP_NAME
-#      - run: heroku config:set DISABLE_COLLECTSTATIC=1 --app $HEROKU_APP_NAME
       - run: heroku config:set BUILD_NUMBER=$CIRCLE_BUILD_NUM -a $HEROKU_APP_NAME
       - run: heroku config:set SECRET_KEY=$SECRET_KEY -a $HEROKU_APP_NAME
-      - run: heroku config:set DNS_SENTRY=$SENTRY_DSN -a $HEROKU_APP_NAME
+      - run: heroku config:set SENTRY_DSN=$SENTRY_DSN -a $HEROKU_APP_NAME
       - run: heroku stack:set heroku-20 -a $HEROKU_APP_NAME
       - run: heroku maintenance:off --app $HEROKU_APP_NAME
       - heroku/deploy-via-git:
           force: true
+      - run: heroku addons:destroy heroku-postgresql -a oc-lettings-512 --confirm oc-lettings-512
