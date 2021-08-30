@@ -21,16 +21,13 @@ workflows:
             branches:
               only:
                 - master
-      - build-docker:
+      - build-push-docker:
           requires:
             - build-and-test
-      - push-docker:
-          requires:
-            - build-docker
       - heroku/deploy-via-git:
           app-name: oc-lettings-512
           requires:
-            - push-docker
+            - build-push-docker
   dev_commit:
     jobs:
       - build-and-test:
@@ -46,15 +43,12 @@ workflows:
             branches:
               ignore:
                 - master
-      - build-docker:
+      - build-push-docker:
           requires:
             - approve-build
-      - push-docker:
-          requires:
-            - build-docker
       - deploy:
           requires:
-            - push-docker
+            - build-push-docker
 
 jobs:
   build-and-test: # This is the name of the job, feel free to change it to better match what you're trying to do!
@@ -91,32 +85,13 @@ jobs:
           steps:
             - run: echo "Branche Master ==> On va conteneuriser et envoyer vers DockerHub"
 
-  build-docker:
+  build-push-docker:
     executor: my-machine
     steps:
       - checkout
       - run:
           name: Build Docker image
           command: docker build -t $DOCKER_USER/oc-lettings:$CIRCLE_SHA1 .
-      - run:
-          name: Check images
-          command: docker images
-      - run:
-          name: Save docker image
-          command: docker save -o oc-lettings.tar $DOCKER_USER/oc-lettings
-      - persist_to_workspace:
-          root: .
-          paths:
-            - ./oc-lettings.tar
-
-  push-docker:
-    executor: my-machine
-    steps:
-      - attach_workspace:
-          at: /tmp/workspace
-      - run:
-          name: Load saved docker image (oc-lettings.tar)
-          command: docker load -i /tmp/workspace/oc-lettings.tar
       - run:
           name: Push Docker Image
           command: |
@@ -133,7 +108,7 @@ jobs:
       - run:
           name: Setup Heroku
           command: |
-                  HEROKU_API_KEY=${HEROKU_API_KEY heroku create -a oc-lettings-512 --region eu
+                  HEROKU_API_KEY=${HEROKU_API_KEY} heroku create -a oc-lettings-512 --region eu
                   HEROKU_API_KEY=${HEROKU_API_KEY} heroku config:set DJANGO_SECRET_KEY=${SECRET_KEY} -a oc-lettings-512
                   HEROKU_API_KEY=${HEROKU_API_KEY} heroku config:set SENTRY_NAME=${SENTRY_DSN} -a oc-lettings-512
                   HEROKU_API_KEY=${HEROKU_API_KEY} heroku config:set DEBUG=${DEBUG} -a oc-lettings-512
