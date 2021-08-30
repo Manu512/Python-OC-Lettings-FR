@@ -24,17 +24,9 @@ workflows:
       - build-push-docker:
           requires:
             - build-and-test
-      - heroku_deploy:
-          jobs:
-            - heroku/deploy-via-git:
-                app-name: $HEROKU_APP_NAME
-                force: true
-                pre-steps:
-                  - run: heroku config:set SECRET_KEY=SECRET_KEY -a $APP_NAME
-                  - run: heroku config:set DNS_SENTRY=SENTRY_DSN -a $APP_NAME
-                  - run: heroku stack:set heroku-20 -a $APP_NAME
-                requires:
-                  - build-push-docker
+      - deploy:
+          requires:
+            - build-push-docker
   dev_commit:
     jobs:
       - build-and-test:
@@ -53,15 +45,7 @@ workflows:
       - build-push-docker:
           requires:
             - approve-build
-  heroku_deploy:
-    jobs:
-      - heroku/deploy-via-git:
-          app-name: $HEROKU_APP_NAME
-          force: true
-          pre-steps:
-            - run: heroku config:set SECRET_KEY=SECRET_KEY -a $APP_NAME
-            - run: heroku config:set DNS_SENTRY=SENTRY_DSN -a $APP_NAME
-            - run: heroku stack:set heroku-20 -a $APP_NAME
+      - deploy:
           requires:
             - build-push-docker
 
@@ -115,20 +99,20 @@ jobs:
                     docker push $DOCKER_USER/oc-lettings:$CIRCLE_SHA1
                     docker push $DOCKER_USER/oc-lettings:lastest
 
-#  deploy:
-#    executor: heroku/default
-#    steps:
-#      - checkout
-#      - heroku/install
-#      - run: heroku maintenance:on --app $APP_NAME
-#      - run: heroku config:set BUILD_NUMBER=$CIRCLE_BUILD_NUM -a $APP_NAME
-#      - run: heroku config:set SECRET_KEY=SECRET_KEY -a $APP_NAME
-#      - run: heroku config:set DNS_SENTRY=SENTRY_DSN -a $APP_NAME
-#      - run: heroku stack:set heroku-20 -a $APP_NAME
-#      - run: heroku maintenance:off --app $HEROKU_APP_NAME
-#      - heroku/deploy-via-git:
-#          app-name: $HEROKU_APP_NAME
-#          force: true
-#
+  deploy:
+    executor: heroku/default
+    steps:
+      - checkout
+      - heroku/install
+      - heroku/deploy-via-git:
+          app-name: $HEROKU_APP_NAME
+          force: true
+          pre-steps:
+            - run: heroku maintenance:on --app $HEROKU_APP_NAME
+            - run: heroku config:set BUILD_NUMBER=$CIRCLE_BUILD_NUM -a $HEROKU_APP_NAME
+            - run: heroku config:set SECRET_KEY=SECRET_KEY -a $HEROKU_APP_NAME
+            - run: heroku config:set DNS_SENTRY=SENTRY_DSN -a $HEROKU_APP_NAME
+            - run: heroku stack:set heroku-20 -a $HEROKU_APP_NAME
+            - run: heroku maintenance:off --app $HEROKU_APP_NAME
 
 
