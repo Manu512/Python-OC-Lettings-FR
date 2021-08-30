@@ -73,11 +73,9 @@ jobs:
           name: Run pytest
           # This assumes pytest is installed via the install-package step above
           command: pytest
-
       - run:
           name: linting PEP8
           command: flake8
-
       - when:
           condition:
             equal: [ master , << pipeline.git.branch >> ]
@@ -94,25 +92,21 @@ jobs:
       - run:
           name: Push Docker Image
           command: |
-                    echo $DOCKER_TOKEN | docker login -u $DOCKER_USER --password-stdin
-                    docker tag $DOCKER_USER/oc-lettings:$CIRCLE_SHA1 $DOCKER_USER/oc-lettings:lastest
-                    docker push $DOCKER_USER/oc-lettings:$CIRCLE_SHA1
-                    docker push $DOCKER_USER/oc-lettings:lastest
+            echo $DOCKER_TOKEN | docker login -u $DOCKER_USER --password-stdin
+            docker tag $DOCKER_USER/oc-lettings:$CIRCLE_SHA1 $DOCKER_USER/oc-lettings:lastest
+            docker push $DOCKER_USER/oc-lettings:$CIRCLE_SHA1
+            docker push $DOCKER_USER/oc-lettings:lastest
 
   deploy:
     executor: heroku/default
     steps:
       - checkout
       - heroku/install
+      - run: heroku maintenance:on --app $HEROKU_APP_NAME
+      - run: heroku config:set BUILD_NUMBER=$CIRCLE_BUILD_NUM -a $HEROKU_APP_NAME
+      - run: heroku config:set SECRET_KEY=SECRET_KEY -a $HEROKU_APP_NAME
+      - run: heroku config:set DNS_SENTRY=SENTRY_DSN -a $HEROKU_APP_NAME
+      - run: heroku stack:set heroku-20 -a $HEROKU_APP_NAME
+      - run: heroku maintenance:off --app $HEROKU_APP_NAME
       - heroku/deploy-via-git:
-          app-name: $HEROKU_APP_NAME
           force: true
-          pre-steps:
-            - run: heroku maintenance:on --app $HEROKU_APP_NAME
-            - run: heroku config:set BUILD_NUMBER=$CIRCLE_BUILD_NUM -a $HEROKU_APP_NAME
-            - run: heroku config:set SECRET_KEY=SECRET_KEY -a $HEROKU_APP_NAME
-            - run: heroku config:set DNS_SENTRY=SENTRY_DSN -a $HEROKU_APP_NAME
-            - run: heroku stack:set heroku-20 -a $HEROKU_APP_NAME
-            - run: heroku maintenance:off --app $HEROKU_APP_NAME
-
-
