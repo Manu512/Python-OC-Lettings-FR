@@ -23,7 +23,7 @@ sentry_sdk.init(
     # django.contrib.auth) you may enable sending PII data.
     send_default_pii=True,
 
-    release="oc-lettings-manu512@1.0.0"
+    release="oc-lettings-manu512@1.0.1"
 
 )
 
@@ -34,3 +34,10 @@ DEBUG = env('DEBUG')
 SECRET_KEY = env('SECRET_KEY')
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
+
+# Static files (CSS, JavaScript, Images)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# Extra places for collectstatic to find static files.
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
