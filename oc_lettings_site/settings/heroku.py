@@ -23,7 +23,7 @@ sentry_sdk.init(
     # django.contrib.auth) you may enable sending PII data.
     send_default_pii=True,
 
-    release="oc-lettings-manu512@1.0.0"
+    release="oc-lettings-manu512@1." + env('BUILD_NUMBER')
 
 )
 
