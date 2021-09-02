@@ -43,12 +43,14 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'oc_lettings_site.urls'
@@ -122,9 +124,8 @@ STATIC_TMP = os.path.join(BASE_DIR, 'static')
 os.makedirs(STATIC_TMP, exist_ok=True)
 os.makedirs(STATIC_ROOT, exist_ok=True)
 
-# Static files (CSS, JavaScript, Images)
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
