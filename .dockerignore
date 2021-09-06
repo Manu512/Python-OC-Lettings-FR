@@ -1,0 +1,22 @@
+# ignore .git and .cache folders
+.git
+.cache
+
+# ignore all markdown files (md) beside all README*.md other than README-secret.md
+*.md
+!README*.md
+README-secret.md
+
+**/__pycache__
+
+venv
+.idea
+
+/oc_lettings_site/settings/.env
+/oc_lettings_site/settings/heroku.py
+
+Procfile
+
+env.*
+
+Dockerfile
