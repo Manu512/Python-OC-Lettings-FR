@@ -86,18 +86,18 @@ Utilisation de PowerShell, comme ci-dessus sauf :
 ---
 ## Déploiement
 
-Fichier des variables environnements disponible à l'adresse : `oc_lettings_site/settings/.env`
+Fichier des variables environnements local sont disponibles à l'adresse : `oc_lettings_site/settings/.env`
 
 **Particularité :**  
 oc_lettings_site/settings contient plusieurs fichiers.
-local.py est le fichier de setting avec les variables local et du docker.
-heroku.py est le fichier de setting avec les variables utilisé pour l'application heroku.
+local.py est le fichier de setting local et du docker.
+heroku.py est le fichier de setting pour l'application heroku.
 
-le fichier .env doit contenir au minimum les lignes suivantes : (Bien entendu ce sont de fausses données)  
-`SECRET_KEY='fp$9^59[3]sriajg$_%]=5trot9g!1qa@ew(o-1#@=&4%=hp46(s'`  
-`SENTRY_DSN='https://0ae682071519451cb76dc3f7@o977250.ingest.sentry.io/5933731'` # Je vais pas sécuriser l'application et l'afficher ici ;o)  
+le fichier .env doit contenir au minimum les lignes suivantes en mode local : (Bien entendu ce sont de fausses données)  
+`SECRET_KEY='fp$9^59[3]sriajg$_%]=5trot9g!1qa@ew(o-1#@=&4%=hp46(s'`
 `ALLOWED_HOSTS=127.0.0.1,[::1],0.0.0.0,.herokuapp.com` # Cette ligne est facultative en mode debug=True
 
+Ou l'environnement doit les définir. Au choix, l'environnement sera toujours prioritaire.
 
 **Pré-requis :**
 
@@ -115,11 +115,11 @@ le fichier .env doit contenir au minimum les lignes suivantes : (Bien entendu ce
     - build and test : 
       - va lancer les tests (via pytests)
       - contrôler le linting PEP8 via Flake8
-- le workflow 'dev-built-and-deploy' attendra notre avail pour se lancer
+- le workflow 'dev-built-and-deploy' attendra notre aval pour se lancer
   - les jobs sont :
     - docker build and push
     - push sur heroku
-    - 
+    
 #### Lors d'un commit sur la branche master :
    
 - le workflow master_commit va se lancer

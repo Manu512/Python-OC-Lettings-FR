@@ -5,6 +5,8 @@ from oc_lettings_site.settings.base import *
 DEBUG = True
 
 # Raises django's ImproperlyConfigured exception if SECRET_KEY not in os.environ
+# Take environment variables from .env file
+
 SECRET_KEY = env('SECRET_KEY')
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')

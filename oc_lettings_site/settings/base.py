@@ -13,8 +13,9 @@ env = environ.Env(
 # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(os.path.realpath(os.path.dirname(__file__) + "/.."))
 
-# Take environment variables from .env file
-environ.Env.read_env(BASE_DIR + "/oc_lettings_site/settings/.env")
+# Take environment variables from .env file for local use
+if os.path.isfile(BASE_DIR + "/oc_lettings_site/settings/.env"):
+    environ.Env.read_env(BASE_DIR + "/oc_lettings_site/settings/.env")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
