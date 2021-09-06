@@ -90,13 +90,14 @@ Fichier des variables environnements local sont disponibles à l'adresse : `oc_l
 
 **Particularité :**  
 oc_lettings_site/settings contient plusieurs fichiers.
-local.py est le fichier de setting avec les variables local et du docker.
-heroku.py est le fichier de setting avec les variables utilisé pour l'application heroku.
+local.py est le fichier de setting local et du docker.
+heroku.py est le fichier de setting pour l'application heroku.
 
-le fichier .env doit contenir au minimum les lignes suivantes en mode local: (Bien entendu ce sont de fausses données)  
+le fichier .env doit contenir au minimum les lignes suivantes en mode local : (Bien entendu ce sont de fausses données)  
 `SECRET_KEY='fp$9^59[3]sriajg$_%]=5trot9g!1qa@ew(o-1#@=&4%=hp46(s'`
 `ALLOWED_HOSTS=127.0.0.1,[::1],0.0.0.0,.herokuapp.com` # Cette ligne est facultative en mode debug=True
 
+Ou l'environnement doit les définir. Au choix, l'environnement sera toujours prioritaire.
 
 **Pré-requis :**
 
