@@ -193,3 +193,5 @@ Sentry permet de faire le [monitoring de l'application](https://sentry.io/organi
 Elle permet également de détecter des éventuels bug/issues.
 
 Mais il faut pour cela intégrer le sentry-sdk et la variable dans settings.py (heroku.py dans notre application).
+
+Soutenance passé
